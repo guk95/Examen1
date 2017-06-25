@@ -6,7 +6,8 @@ import Nodos.NodoE;
 public class ListaE {
 
     private Nodos.NodoE cabeza;
-    private Nodos.NodoE ultimo;
+    private NodoE ultimo;
+
     private int size;
 
     public ListaE() {
@@ -19,40 +20,149 @@ public class ListaE {
         return cabeza == null;
     }
 
-    public boolean addEspaña(Model.Jugador dato, Model.Jugador marca) {
+    public boolean add(Model.Jugador dato, Model.Jugador marca) {
+        if (0 == size) {
+            NodoE nuevo = new NodoE(dato, marca);
 
-        NodoE nuevo = new NodoE(dato, marca);
+            if (dato.getPosicion() == "Portero") {
+                Model.Jugador jugadorNulo = new Jugador("Al portero no se puede marcar", 0, "", "");
+                nuevo.setMarca(jugadorNulo);
+                nuevo.setPosicion(0);
+            } else if (dato.getPosicion() == "Defensa") {
+                nuevo.setPosicion(1);
 
-        if (size < 11) {
-            if (isEmpty()) {
-                cabeza = nuevo;
+            } else if (dato.getPosicion() == "Mediocampo") {
+                nuevo.setPosicion(2);
+            } else if (dato.getPosicion() == "Delantero") {
+                nuevo.setPosicion(3);
 
             } else {
-                NodoE aux = cabeza;
-                int cont = 0;
-
-                while (cont < size - 1) {
-                    aux = aux.getSig();
-                    cont++;
-                }
-
-                if (dato.getPosicion() == "Portero") {
-                    Model.Jugador jugadorNulo = new Jugador("", 0, "", "");
-                    nuevo.setMarca(jugadorNulo);
-                }
-                aux.setSig(nuevo);
-                ultimo = nuevo;
+                throw new Error("Una de las posiciones de los jugadores esta malescrita   "
+                        + "o no existe por favor escribala correctamente");
 
             }
-
+            cabeza = nuevo;
+            ultimo = nuevo;
+            ++size;
+            return true;
         } else {
-            throw new Error("\"No se puede tener mas de 11 jugadores en la cancha"
-                    + " intente realizar un cambio con la opcion Cambiar jugador");
+            NodoE nuevo = new NodoE(dato, marca);
 
+            if (dato.getPosicion() == "Portero") {
+                Model.Jugador jugadorNulo = new Jugador("Al portero no se puede marcar", 0, "", "");
+                nuevo.setMarca(jugadorNulo);
+                nuevo.setPosicion(0);
+            } else if (dato.getPosicion() == "Defensa") {
+                nuevo.setPosicion(1);
+
+            } else if (dato.getPosicion() == "Mediocampo") {
+                nuevo.setPosicion(2);
+            } else if (dato.getPosicion() == "Delantero") {
+                nuevo.setPosicion(3);
+
+            } else {
+                throw new Error("Una de las posiciones de los jugadores esta malescrita   "
+                        + "o no existe por favor escribala correctamente");
+
+            }
+            ultimo.setSig(nuevo);
+            nuevo.setAnt(ultimo);
+            ultimo = nuevo;
+            ++size;
+            return true;
         }
+    }
 
-        size++;
-        return true;
+    public NodoE getNodo(int index) {
+
+        if (0 == size) {
+            return null;
+        } else if (index > size - 1) {
+            throw new IndexOutOfBoundsException();
+        } else if (index == 0) {
+            return cabeza;
+        } else if (index == size - 1) {
+            return ultimo;
+        } else {
+            NodoE aux = cabeza;
+            int cont = 0;
+            while (aux.getSig() != null && cont < index) {
+                aux = aux.getSig();
+                ++cont;
+            }
+            return aux;
+        }
+    }
+
+    public void CocktailSort() {
+        int cont = 0;
+        while (cont <= size / 2) {
+            NodoE mayor = getNodo(cont);
+            NodoE menor = getNodo((size - 1) - cont);
+            while (mayor.getSig() != null) {
+                if (mayor.getPosicion() > mayor.getSig().getPosicion()) {
+                    if (mayor == cabeza) {
+                        NodoE nuevo = mayor.getSig();
+                        nuevo.getSig().setAnt(mayor);
+                        mayor.setSig(mayor.getSig().getSig());
+                        mayor.setAnt(nuevo);
+                        nuevo.setAnt(null);
+                        nuevo.setSig(mayor);
+                        cabeza = nuevo;
+                    } else if (mayor.getSig() == ultimo) {
+                        NodoE nuevo = mayor.getSig();
+                        mayor.getAnt().setSig(nuevo);
+                        nuevo.setAnt(mayor.getAnt());
+                        nuevo.setSig(mayor);
+                        mayor.setSig(null);
+                        mayor.setAnt(nuevo);
+                        ultimo = mayor;
+                    } else {
+                        NodoE nuevo = mayor.getSig();
+                        mayor.getAnt().setSig(nuevo);
+                        nuevo.getSig().setAnt(mayor);
+                        nuevo.setAnt(mayor.getAnt());
+                        mayor.setSig(nuevo.getSig());
+                        nuevo.setSig(mayor);
+                        mayor.setAnt(nuevo);
+                    }
+                } else {
+                    mayor = mayor.getSig();
+                }
+            }
+            while (menor.getAnt() != null) {
+                if (menor.getPosicion() < menor.getAnt().getPosicion()) {
+                    if (menor == ultimo) {
+                        NodoE nuevo2 = menor.getAnt();
+                        nuevo2.getAnt().setSig(menor);
+                        menor.setSig(nuevo2);
+                        menor.setAnt(menor.getAnt().getAnt());
+                        nuevo2.setAnt(menor);
+                        nuevo2.setSig(null);
+                        ultimo = nuevo2;
+                    } else if (menor.getAnt() == cabeza) {
+                        NodoE nuevo2 = menor.getAnt();
+                        menor.getSig().setAnt(nuevo2);
+                        nuevo2.setAnt(menor);
+                        nuevo2.setSig(menor.getSig());
+                        menor.setSig(nuevo2);
+                        menor.setAnt(null);
+                        cabeza = menor;
+                    } else {
+                        NodoE nuevo2 = menor.getAnt();
+                        menor.getSig().setAnt(nuevo2);
+                        nuevo2.getAnt().setSig(menor);
+                        nuevo2.setSig(menor.getSig());
+                        menor.setSig(nuevo2);
+                        menor.setAnt(nuevo2.getAnt());
+                        nuevo2.setAnt(menor);
+                    }
+                } else {
+                    menor = menor.getAnt();
+                }
+            }
+            cont++;
+        }
     }
 
     public String toString() {
@@ -71,7 +181,9 @@ public class ListaE {
             builder.append(" ");
             builder.append(aux.getDato().getPais());
             builder.append(" ");
-            builder.append(aux.getMarca().getNombre());
+            builder.append(" El jugador contrario que lo marca es: ");
+
+            builder.append(aux.getPosicion());
             builder.append(" ");
             builder.append(System.getProperty("line.separator"));
 

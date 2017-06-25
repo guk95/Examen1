@@ -5,8 +5,8 @@ import Nodos.NodoC;
 public class ListaC {
 
     private Nodos.NodoC cabeza;
-    private int size;
     private NodoC ultimo;
+    private int size;
 
     public ListaC() {
         this.cabeza = null;
@@ -35,7 +35,7 @@ public class ListaC {
                     cont++;
                 }
                 aux.setSig(nuevo);
-                ultimo = nuevo;
+                nuevo.setAnt(aux);
 
             }
 
@@ -49,90 +49,34 @@ public class ListaC {
         return true;
     }
 
-    public boolean sortedChile() {
-
-        int cont2 = 0;
-        int cont = 0;
-
-        while (cont < size) {
-
-            while (cont2 < size - 1) {
-                NodoC aux = cabeza;
-                NodoC aux2 = aux.getSig();
-
-                if (cabeza.getDato().getEdad() > aux2.getDato().getEdad()) {
-                    aux.setSig(aux2.getSig());
-                    aux2.setSig(aux);
-                    cabeza = aux2;
-
-                    System.out.println("puta");
-                    aux2 = aux.getSig();
-                } else {
-                    aux = aux.getSig();
-                    aux2 = aux2.getSig();
-
-                }
-
-                if (aux.getDato().getEdad() > aux2.getDato().getEdad() && aux2.getSig() != null) {
-                    aux.setSig(aux2.getSig());
-                    aux2.setSig(aux);
-                    System.out.println("putitas");
-
-                }
-
-                cont2++;
-
-            }
-            System.out.println("putap");
-
-            cont++;
-
-        }
-
-        return true;
-    }
-
-    public boolean sorted() {
-
-        NodoC aux = cabeza;
-        NodoC aux2 = aux.getSig();
-        int cont = 0;
-        while (aux.getSig() != null) {
-
-            while (cont < size - 1) {
-
-                if (cabeza.getDato().getEdad() > aux2.getDato().getEdad()) {
-                    cabeza.setSig(aux2.getSig());
-                    aux2.setSig(cabeza);
-                    cabeza = aux2;
-                    aux = aux2;
-
-                }
-                if (aux.getDato().getEdad() > aux2.getDato().getEdad()) {
-                    aux.setSig(aux2.getSig());
-                    aux2.setSig(aux);
-                    aux2 = aux;
-
-                } else {
-                    aux = aux.getSig();
-                    aux2 = aux2.getSig();
-
-                }
-
-            }
-
-        }
-
-        return true;
-    }
-
-    public int get(int index) {
+    public boolean add(Model.Jugador jugador) {
         if (0 == size) {
-            return 0;
+            NodoC nuevo = new NodoC(jugador);
+            cabeza = nuevo;
+            ultimo = nuevo;
+            ++size;
+            return true;
+        } else {
+            NodoC nuevo = new NodoC(jugador);
+            ultimo.setSig(nuevo);
+            nuevo.setAnt(ultimo);
+            ultimo = nuevo;
+            ++size;
+            return true;
+        }
+    }
+
+    public NodoC getNodo(int index) {
+
+        if (0 == size) {
+            return null;
         } else if (index > size - 1) {
             throw new IndexOutOfBoundsException();
         } else if (index == 0) {
-            return cabeza.getDato().getEdad();
+            return cabeza;
+        } else if (index == size - 1) {
+
+            return ultimo;
         } else {
             NodoC aux = cabeza;
             int cont = 0;
@@ -140,7 +84,78 @@ public class ListaC {
                 aux = aux.getSig();
                 ++cont;
             }
-            return aux.getDato().getEdad();
+            return aux;
+        }
+    }
+
+    public void CocktailSort() {
+        int cont = 0;
+        while (cont <= size / 2) {
+            NodoC mayor = getNodo(cont);
+            NodoC menor = getNodo((size - 1) - cont);
+            while (mayor.getSig() != null) {
+                if (mayor.getDato().getEdad() > mayor.getSig().getDato().getEdad()) {
+                    if (mayor == cabeza) {
+                        NodoC nuevo = mayor.getSig();
+                        nuevo.getSig().setAnt(mayor);
+                        mayor.setSig(mayor.getSig().getSig());
+                        mayor.setAnt(nuevo);
+                        nuevo.setAnt(null);
+                        nuevo.setSig(mayor);
+                        cabeza = nuevo;
+                    } else if (mayor.getSig() == ultimo) {
+                        NodoC nuevo = mayor.getSig();
+                        mayor.getAnt().setSig(nuevo);
+                        nuevo.setAnt(mayor.getAnt());
+                        nuevo.setSig(mayor);
+                        mayor.setSig(null);
+                        mayor.setAnt(nuevo);
+                        ultimo = mayor;
+                    } else {
+                        NodoC nuevo = mayor.getSig();
+                        mayor.getAnt().setSig(nuevo);
+                        nuevo.getSig().setAnt(mayor);
+                        nuevo.setAnt(mayor.getAnt());
+                        mayor.setSig(nuevo.getSig());
+                        nuevo.setSig(mayor);
+                        mayor.setAnt(nuevo);
+                    }
+                } else {
+                    mayor = mayor.getSig();
+                }
+            }
+            while (menor.getAnt() != null) {
+                if (menor.getDato().getEdad() < menor.getAnt().getDato().getEdad()) {
+                    if (menor == ultimo) {
+                        NodoC nuevo2 = menor.getAnt();
+                        nuevo2.getAnt().setSig(menor);
+                        menor.setSig(nuevo2);
+                        menor.setAnt(menor.getAnt().getAnt());
+                        nuevo2.setAnt(menor);
+                        nuevo2.setSig(null);
+                        ultimo = nuevo2;
+                    } else if (menor.getAnt() == cabeza) {
+                        NodoC nuevo2 = menor.getAnt();
+                        menor.getSig().setAnt(nuevo2);
+                        nuevo2.setAnt(menor);
+                        nuevo2.setSig(menor.getSig());
+                        menor.setSig(nuevo2);
+                        menor.setAnt(null);
+                        cabeza = menor;
+                    } else {
+                        NodoC nuevo2 = menor.getAnt();
+                        menor.getSig().setAnt(nuevo2);
+                        nuevo2.getAnt().setSig(menor);
+                        nuevo2.setSig(menor.getSig());
+                        menor.setSig(nuevo2);
+                        menor.setAnt(nuevo2.getAnt());
+                        nuevo2.setAnt(menor);
+                    }
+                } else {
+                    menor = menor.getAnt();
+                }
+            }
+            cont++;
         }
     }
 
