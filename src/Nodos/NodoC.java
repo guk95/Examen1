@@ -6,8 +6,8 @@ public class NodoC {
 
     private NodoC sig;
     private NodoC ant;
-
     private Model.Jugador dato;
+    private int posicion;
 
     public NodoC(Model.Jugador dato) {
 
@@ -16,6 +16,14 @@ public class NodoC {
 
         this.dato = new Jugador(dato.getNombre(), dato.getEdad(), dato.getPosicion(), dato.getPais());
 
+    }
+
+    public int getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
     }
 
     public NodoC getAnt() {

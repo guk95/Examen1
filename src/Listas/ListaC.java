@@ -19,51 +19,64 @@ public class ListaC {
     }
 
     public boolean addChile(Model.Jugador dato) {
-
-        NodoC nuevo = new NodoC(dato);
-
         if (size < 11) {
             if (isEmpty()) {
-                cabeza = nuevo;
+                NodoC nuevo = new NodoC(dato);
 
-            } else {
-                NodoC aux = cabeza;
-                int cont = 0;
+                if (dato.getPosicion() == "Portero") {
 
-                while (cont < size - 1) {
-                    aux = aux.getSig();
-                    cont++;
+                    nuevo.setPosicion(0);
+                } else if (dato.getPosicion() == "Defensa") {
+                    nuevo.setPosicion(1);
+
+                } else if (dato.getPosicion() == "Mediocampo") {
+                    nuevo.setPosicion(2);
+                } else if (dato.getPosicion() == "Delantero") {
+                    nuevo.setPosicion(3);
+
+                } else {
+                    throw new Error("Una de las posiciones de los jugadores esta malescrita   "
+                            + "o no existe por favor escribala correctamente");
+
                 }
-                aux.setSig(nuevo);
-                nuevo.setAnt(aux);
+                cabeza = nuevo;
+                ultimo = nuevo;
+                ++size;
+                return true;
+            } else {
+                NodoC nuevo = new NodoC(dato);
+
+                if (dato.getPosicion() == "Portero") {
+
+                    nuevo.setPosicion(0);
+                } else if (dato.getPosicion() == "Defensa") {
+                    nuevo.setPosicion(1);
+
+                } else if (dato.getPosicion() == "Mediocampo") {
+                    nuevo.setPosicion(2);
+                } else if (dato.getPosicion() == "Delantero") {
+                    nuevo.setPosicion(3);
+
+                } else {
+                    throw new Error("Una de las posiciones de los jugadores esta mal escrita   "
+                            + "o no existe por favor escribala correctamente");
+
+                }
+                ultimo.setSig(nuevo);
+                nuevo.setAnt(ultimo);
+                ultimo = nuevo;
+                ++size;
 
             }
 
         } else {
-            throw new Error("\"No se puede tener mas de 11 jugadores en la cancha"
-                    + " intente realizar un cambio con la opcion Cambiar jugador");
+
+            throw new Error("No se puede añadir mas de 11 jugadores al terreno de juego");
 
         }
 
-        size++;
         return true;
-    }
 
-    public boolean add(Model.Jugador jugador) {
-        if (0 == size) {
-            NodoC nuevo = new NodoC(jugador);
-            cabeza = nuevo;
-            ultimo = nuevo;
-            ++size;
-            return true;
-        } else {
-            NodoC nuevo = new NodoC(jugador);
-            ultimo.setSig(nuevo);
-            nuevo.setAnt(ultimo);
-            ultimo = nuevo;
-            ++size;
-            return true;
-        }
     }
 
     public NodoC getNodo(int index) {
@@ -88,7 +101,7 @@ public class ListaC {
         }
     }
 
-    public void CocktailSort() {
+    public void ordernarChile() {
         int cont = 0;
         while (cont <= size / 2) {
             NodoC mayor = getNodo(cont);
@@ -189,8 +202,7 @@ public class ListaC {
         return true;
     }
 
-    @Override
-    public String toString() {
+    public String toStringChile() {
         StringBuilder builder = new StringBuilder();
 
         NodoC aux = cabeza;
@@ -198,14 +210,18 @@ public class ListaC {
 
         while (cont < size) {
             builder.append(" ");
+            builder.append("Nombre : ");
             builder.append(aux.getDato().getNombre());
-            builder.append(" ");
+            builder.append("    ");
+            builder.append("Edad : ");
             builder.append(aux.getDato().getEdad());
-            builder.append(" ");
+            builder.append("    ");
+            builder.append("Posicion : ");
             builder.append(aux.getDato().getPosicion());
-            builder.append(" ");
+            builder.append("    ");
+            builder.append("Pais : ");
             builder.append(aux.getDato().getPais());
-            builder.append(" ");
+            builder.append("    ");
             builder.append(System.getProperty("line.separator"));
 
             ++cont;
@@ -213,6 +229,167 @@ public class ListaC {
         }
 
         return builder.toString();
+    }
+
+    public String alineaciondeJuego(int dato2, int dato3, int dato4) {
+        ordenarparaAlineacion();
+
+        if (dato2 + dato3 + dato4 <= 10) {
+            int cont = 0;
+
+            StringBuilder builder = new StringBuilder();
+
+            int coni = 0;
+            while (coni < 1) {
+                NodoC aux = cabeza;
+                while (cont < size) {
+                    builder.append("------Portero-------");
+                    builder.append(System.getProperty("line.separator"));
+                    if (aux.getDato().getPosicion() == "Portero") {
+
+                        builder.append(aux.getDato().getNombre());
+                        builder.append(System.getProperty("line.separator"));
+                        builder.append(System.getProperty("line.separator"));
+
+                        break;
+
+                    } else {
+                        aux = aux.getSig();
+
+                    }
+
+                    cont++;
+
+                }
+                coni++;
+            }
+
+            int cont1 = 0;
+
+            NodoC aux = cabeza.getSig();
+            builder.append("------Defensas-------");
+            builder.append(System.getProperty("line.separator"));
+
+            int cont2 = 0;
+            while (cont2 < dato2) {
+
+                builder.append(aux.getDato().getNombre());
+                builder.append(" ");
+
+                aux = aux.getSig();
+
+                cont2++;
+
+            }
+            builder.append(System.getProperty("line.separator"));
+            builder.append(System.getProperty("line.separator"));
+            builder.append("------Mediocampo-------");
+            builder.append(System.getProperty("line.separator"));
+            int cont3 = 0;
+            while (cont3 < dato3) {
+
+                builder.append(aux.getDato().getNombre());
+                builder.append(" ");
+
+                aux = aux.getSig();
+
+                cont3++;
+
+            }
+            builder.append(System.getProperty("line.separator"));
+            builder.append(System.getProperty("line.separator"));
+            builder.append("------Delanteros-------");
+            builder.append(System.getProperty("line.separator"));
+            int cont4 = 0;
+            while (cont4 < dato4) {
+
+                builder.append(aux.getDato().getNombre());
+                builder.append(" ");
+
+                aux = aux.getSig();
+
+                cont4++;
+
+            }
+            return builder.toString();
+        } else {
+
+            throw new IndexOutOfBoundsException("Usted solo puede realizar alineaciones con"
+                    + " no mas de 11 jugadores");
+
+        }
+
+    }
+
+    public void ordenarparaAlineacion() {
+        int cont = 0;
+        while (cont <= size / 2) {
+            NodoC mayor = getNodo(cont);
+            NodoC menor = getNodo((size - 1) - cont);
+            while (mayor.getSig() != null) {
+                if (mayor.getPosicion() > mayor.getSig().getPosicion()) {
+                    if (mayor == cabeza) {
+                        NodoC nuevo = mayor.getSig();
+                        nuevo.getSig().setAnt(mayor);
+                        mayor.setSig(mayor.getSig().getSig());
+                        mayor.setAnt(nuevo);
+                        nuevo.setAnt(null);
+                        nuevo.setSig(mayor);
+                        cabeza = nuevo;
+                    } else if (mayor.getSig() == ultimo) {
+                        NodoC nuevo = mayor.getSig();
+                        mayor.getAnt().setSig(nuevo);
+                        nuevo.setAnt(mayor.getAnt());
+                        nuevo.setSig(mayor);
+                        mayor.setSig(null);
+                        mayor.setAnt(nuevo);
+                        ultimo = mayor;
+                    } else {
+                        NodoC nuevo = mayor.getSig();
+                        mayor.getAnt().setSig(nuevo);
+                        nuevo.getSig().setAnt(mayor);
+                        nuevo.setAnt(mayor.getAnt());
+                        mayor.setSig(nuevo.getSig());
+                        nuevo.setSig(mayor);
+                        mayor.setAnt(nuevo);
+                    }
+                } else {
+                    mayor = mayor.getSig();
+                }
+            }
+            while (menor.getAnt() != null) {
+                if (menor.getPosicion() < menor.getAnt().getPosicion()) {
+                    if (menor == ultimo) {
+                        NodoC nuevo2 = menor.getAnt();
+                        nuevo2.getAnt().setSig(menor);
+                        menor.setSig(nuevo2);
+                        menor.setAnt(menor.getAnt().getAnt());
+                        nuevo2.setAnt(menor);
+                        nuevo2.setSig(null);
+                        ultimo = nuevo2;
+                    } else if (menor.getAnt() == cabeza) {
+                        NodoC nuevo2 = menor.getAnt();
+                        menor.getSig().setAnt(nuevo2);
+                        nuevo2.setAnt(menor);
+                        nuevo2.setSig(menor.getSig());
+                        menor.setSig(nuevo2);
+                        menor.setAnt(null);
+                        cabeza = menor;
+                    } else {
+                        NodoC nuevo2 = menor.getAnt();
+                        menor.getSig().setAnt(nuevo2);
+                        nuevo2.getAnt().setSig(menor);
+                        nuevo2.setSig(menor.getSig());
+                        menor.setSig(nuevo2);
+                        menor.setAnt(nuevo2.getAnt());
+                        nuevo2.setAnt(menor);
+                    }
+                } else {
+                    menor = menor.getAnt();
+                }
+            }
+            cont++;
+        }
     }
 
     public NodoC getCabeza() {

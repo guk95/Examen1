@@ -1,6 +1,7 @@
 package Listas;
 
 import Model.Jugador;
+import Nodos.NodoC;
 import Nodos.NodoE;
 
 public class ListaE {
@@ -20,57 +21,67 @@ public class ListaE {
         return cabeza == null;
     }
 
-    public boolean add(Model.Jugador dato, Model.Jugador marca) {
-        if (0 == size) {
-            NodoE nuevo = new NodoE(dato, marca);
+    public boolean addEspaña(Model.Jugador dato, Model.Jugador marca) {
 
-            if (dato.getPosicion() == "Portero") {
-                Model.Jugador jugadorNulo = new Jugador("Al portero no se puede marcar", 0, "", "");
-                nuevo.setMarca(jugadorNulo);
-                nuevo.setPosicion(0);
-            } else if (dato.getPosicion() == "Defensa") {
-                nuevo.setPosicion(1);
+        if (size < 11) {
+            if (isEmpty()) {
+                NodoE nuevo = new NodoE(dato, marca);
 
-            } else if (dato.getPosicion() == "Mediocampo") {
-                nuevo.setPosicion(2);
-            } else if (dato.getPosicion() == "Delantero") {
-                nuevo.setPosicion(3);
+                if (dato.getPosicion() == "Portero") {
+                    Model.Jugador jugadorNulo = new Jugador("Al portero no se puede marcar", 0, "", "");
+                    nuevo.setMarca(jugadorNulo);
+                    nuevo.setPosicion(0);
+                } else if (dato.getPosicion() == "Defensa") {
+                    nuevo.setPosicion(1);
 
+                } else if (dato.getPosicion() == "Mediocampo") {
+                    nuevo.setPosicion(2);
+                } else if (dato.getPosicion() == "Delantero") {
+                    nuevo.setPosicion(3);
+
+                } else {
+                    throw new Error("Una de las posiciones de los jugadores esta malescrita   "
+                            + "o no existe por favor escribala correctamente");
+
+                }
+                cabeza = nuevo;
+                ultimo = nuevo;
+                ++size;
+                return true;
             } else {
-                throw new Error("Una de las posiciones de los jugadores esta malescrita   "
-                        + "o no existe por favor escribala correctamente");
+                NodoE nuevo = new NodoE(dato, marca);
+
+                if (dato.getPosicion() == "Portero") {
+                    Model.Jugador jugadorNulo = new Jugador("Al portero no se puede marcar", 0, "", "");
+                    nuevo.setMarca(jugadorNulo);
+                    nuevo.setPosicion(0);
+                } else if (dato.getPosicion() == "Defensa") {
+                    nuevo.setPosicion(1);
+
+                } else if (dato.getPosicion() == "Mediocampo") {
+                    nuevo.setPosicion(2);
+                } else if (dato.getPosicion() == "Delantero") {
+                    nuevo.setPosicion(3);
+
+                } else {
+                    throw new Error("Una de las posiciones de los jugadores esta malescrita   "
+                            + "o no existe por favor escribala correctamente");
+
+                }
+                ultimo.setSig(nuevo);
+                nuevo.setAnt(ultimo);
+                ultimo = nuevo;
+                ++size;
 
             }
-            cabeza = nuevo;
-            ultimo = nuevo;
-            ++size;
-            return true;
+
         } else {
-            NodoE nuevo = new NodoE(dato, marca);
 
-            if (dato.getPosicion() == "Portero") {
-                Model.Jugador jugadorNulo = new Jugador("Al portero no se puede marcar", 0, "", "");
-                nuevo.setMarca(jugadorNulo);
-                nuevo.setPosicion(0);
-            } else if (dato.getPosicion() == "Defensa") {
-                nuevo.setPosicion(1);
+            throw new Error("No se puede añadir mas de 11 jugadores al terreno de juego");
 
-            } else if (dato.getPosicion() == "Mediocampo") {
-                nuevo.setPosicion(2);
-            } else if (dato.getPosicion() == "Delantero") {
-                nuevo.setPosicion(3);
-
-            } else {
-                throw new Error("Una de las posiciones de los jugadores esta malescrita   "
-                        + "o no existe por favor escribala correctamente");
-
-            }
-            ultimo.setSig(nuevo);
-            nuevo.setAnt(ultimo);
-            ultimo = nuevo;
-            ++size;
-            return true;
         }
+
+        return true;
     }
 
     public NodoE getNodo(int index) {
@@ -94,7 +105,7 @@ public class ListaE {
         }
     }
 
-    public void CocktailSort() {
+    public void ordenarEspaña() {
         int cont = 0;
         while (cont <= size / 2) {
             NodoE mayor = getNodo(cont);
@@ -165,7 +176,7 @@ public class ListaE {
         }
     }
 
-    public String toString() {
+    public String toStringEspaña() {
         StringBuilder builder = new StringBuilder();
 
         NodoE aux = cabeza;
@@ -173,17 +184,21 @@ public class ListaE {
 
         while (cont < size) {
             builder.append(" ");
+            builder.append("Nombre: ");
             builder.append(aux.getDato().getNombre());
             builder.append(" ");
+            builder.append("Edad : ");
             builder.append(aux.getDato().getEdad());
             builder.append(" ");
+            builder.append("Posicion: ");
             builder.append(aux.getDato().getPosicion());
             builder.append(" ");
+            builder.append("Pais :");
             builder.append(aux.getDato().getPais());
             builder.append(" ");
             builder.append(" El jugador contrario que lo marca es: ");
 
-            builder.append(aux.getPosicion());
+            builder.append(aux.getMarca().getNombre());
             builder.append(" ");
             builder.append(System.getProperty("line.separator"));
 
