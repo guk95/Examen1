@@ -21,6 +21,17 @@ public class ListaE {
         return cabeza == null;
     }
 
+    /**
+     * <h4>addEspaña</h4>
+     * <p>
+     * Añade Objetos Jugador a la lista y dependiendo de su posicion les asigna
+     * un valor y ademas agrega un jugador rival como marca</p>
+     *
+     *
+     * @param dato Objeto jugador
+     * @param marca Objeto jugador rival
+     * @return true si se añade.
+     */
     public boolean addEspaña(Model.Jugador dato, Model.Jugador marca) {
 
         if (size < 11) {
@@ -28,7 +39,7 @@ public class ListaE {
                 NodoE nuevo = new NodoE(dato, marca);
 
                 if (dato.getPosicion() == "Portero") {
-                    Model.Jugador jugadorNulo = new Jugador("Al portero no se puede marcar", 0, "", "");
+                    Model.Jugador jugadorNulo = new Jugador("Al portero no se le puede marcar", 0, "", "");
                     nuevo.setMarca(jugadorNulo);
                     nuevo.setPosicion(0);
                 } else if (dato.getPosicion() == "Defensa") {
@@ -52,7 +63,7 @@ public class ListaE {
                 NodoE nuevo = new NodoE(dato, marca);
 
                 if (dato.getPosicion() == "Portero") {
-                    Model.Jugador jugadorNulo = new Jugador("Al portero no se puede marcar", 0, "", "");
+                    Model.Jugador jugadorNulo = new Jugador("Al portero no se le puede marcar", 0, "", "");
                     nuevo.setMarca(jugadorNulo);
                     nuevo.setPosicion(0);
                 } else if (dato.getPosicion() == "Defensa") {
@@ -84,6 +95,14 @@ public class ListaE {
         return true;
     }
 
+    /**
+     * <h4>getNodo</h4>
+     * <p>
+     * Obtiene el nodo segun el indice que reciba</p>
+     *
+     * @param index numero que se escoge.
+     * @return el dato del indice que recibio.
+     */
     public NodoE getNodo(int index) {
 
         if (0 == size) {
@@ -105,7 +124,16 @@ public class ListaE {
         }
     }
 
-    public void ordenarEspaña() {
+    /**
+     * <h4>ordenarEspaña</h4>
+     * <p>
+     * Utiliza el cocktailSort para recorrer la lista y ordenarla segun la
+     * posicion de los jugadores</p>
+     *
+     *
+     * @return true cuando el proceso termina.
+     */
+    public boolean ordenarEspaña() {
         int cont = 0;
         while (cont <= size / 2) {
             NodoE mayor = getNodo(cont);
@@ -174,8 +202,17 @@ public class ListaE {
             }
             cont++;
         }
+        return true;
     }
 
+    /**
+     * <h4>toStringEspaña</h4>
+     * <p>
+     * Concatena la informacion de la lista</p>
+     *
+     *
+     * @return string de lo que se le indica .
+     */
     public String toStringEspaña() {
         StringBuilder builder = new StringBuilder();
 

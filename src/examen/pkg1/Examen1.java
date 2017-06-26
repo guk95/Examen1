@@ -50,16 +50,16 @@ public class Examen1 {
         //Nombre , edad, Posicion(Portero o Defensa o Mediocampo o Delantero) , Pais
         Model.Jugador jugadorEspaña1 = new Jugador("Ramos ", 21, "Defensa", "España");
         Model.Jugador jugadorEspaña2 = new Jugador("Pique", 30, "Defensa", "España");
-        Model.Jugador jugadorEspaña3 = new Jugador("Puyol", 2, "Defensa", "España");
-        Model.Jugador jugadorEspaña4 = new Jugador("Capdevilla", 1, "Defensa", "España");
-        Model.Jugador jugadorEspaña5 = new Jugador("Casillas", 10, "Portero", "España");
-        Model.Jugador jugadorEspaña6 = new Jugador("Xabi Alonso", 11, "Mediocampo", "España");
-        Model.Jugador jugadorEspaña7 = new Jugador("Busquets", 7, "Mediocampo", "España");
-        Model.Jugador jugadorEspaña8 = new Jugador("Xavi Hernandez", 9, "Defensa", "España");
-        Model.Jugador jugadorEspaña9 = new Jugador("Pedro Rodriguez", 10, "Mediocampo", "España");
-        Model.Jugador jugadorEspaña10 = new Jugador("Andres Iniesta", 10, "Mediocampo", "España");
-        Model.Jugador jugadorEspaña11 = new Jugador("David Villa", 10, "Delantero", "España");
-        Model.Jugador jugadorEspañaSuplente = new Jugador("Torres", 10, "Delantero", "España");
+        Model.Jugador jugadorEspaña3 = new Jugador("Puyol", 33, "Defensa", "España");
+        Model.Jugador jugadorEspaña4 = new Jugador("Capdevilla", 27, "Defensa", "España");
+        Model.Jugador jugadorEspaña5 = new Jugador("Casillas", 30, "Portero", "España");
+        Model.Jugador jugadorEspaña6 = new Jugador("Xabi Alonso", 31, "Mediocampo", "España");
+        Model.Jugador jugadorEspaña7 = new Jugador("Busquets", 27, "Mediocampo", "España");
+        Model.Jugador jugadorEspaña8 = new Jugador("Xavi Hernandez", 25, "Defensa", "España");
+        Model.Jugador jugadorEspaña9 = new Jugador("Pedro Rodriguez", 27, "Mediocampo", "España");
+        Model.Jugador jugadorEspaña10 = new Jugador("Andres Iniesta", 28, "Mediocampo", "España");
+        Model.Jugador jugadorEspaña11 = new Jugador("David Villa", 30, "Delantero", "España");
+        Model.Jugador jugadorEspañaSuplente = new Jugador("Torres", 22, "Delantero", "España");
 
         listaE.addEspaña(jugadorEspaña1, jugadorChile10);
         listaE.addEspaña(jugadorEspaña2, jugadorChile2);
@@ -73,29 +73,45 @@ public class Examen1 {
         listaE.addEspaña(jugadorEspaña10, jugadorChile9);
         listaE.addEspaña(jugadorEspaña11, jugadorChile11);
 
-//
-//        System.out.println(listaC.toStringChile());
-//        listaC.ordernarChile();
-//        System.out.println(listaC.toStringChile());
-//
-//        System.out.println(listaE.toStringEspaña());
-//        listaE.ordenarEspaña();
-//        System.out.println(listaE.toStringEspaña());
-//        System.out.println(listaC.alineaciondeJuego(1, 2, 4, 3));
+        System.out.println("Ordenamiento de los de Chile" + "\n");
+        //lista desordenada
+        System.out.println("Lista desordenada");
         System.out.println(listaC.toStringChile());
+        //metodo para ordenar por edad
         listaC.ordernarChile();
+        //lista ordenada
+        System.out.println("Lista ordenada");
         System.out.println(listaC.toStringChile());
+        System.out.println(".....................................................................");
 
-        System.out.println("Se lesiono Suazo");
-        listaC.cambiarJugador(jugadorChile6, jugadorChileSuplente);
-        listaC.ordernarChile();
-        System.out.println(listaC.toStringChile());
+        System.out.println("Ordenamiento de los de España" + "\n");
+        //lista desordenada
+        System.out.println("Lista desordenada");
+        System.out.println(listaE.toStringEspaña());
+        //metodo para ordenar
+        listaE.ordenarEspaña();
+        //lista ordenada por posicion 
+        System.out.println("Lista ordenada");
+        System.out.println(listaE.toStringEspaña());
 
-//        System.out.println(listaE.toStringEspaña());
-//        listaE.ordenarEspaña();
-//        System.out.println(listaE.toStringEspaña());
-//
+        System.out.println(".....................................................................");
+
+        System.out.println("Alineacion de Chile");
         System.out.println(listaC.alineaciondeJuego(4, 4, 2));
+        System.out.println(".....................................................................");
+
+        System.out.println("Se lesiona un jugador y hay que cambiarlo");
+        //antes del cambio
+        System.out.println("Antes del cambio");
+        System.out.println(listaC.toStringChile());
+        //se escoge el jugador que se va a cambiar de primero y luego el suplente que va a entrar a la cancha
+        listaC.cambiarJugador(jugadorChile6, jugadorChileSuplente);
+
+        System.out.println("Despues del cambio");
+        System.out.println(listaC.toStringChile());
+
+        System.out.println(listaC.alineaciondeJuego(4, 4, 2));
+
     }
 
 }

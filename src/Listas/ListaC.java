@@ -18,6 +18,16 @@ public class ListaC {
         return cabeza == null;
     }
 
+    /**
+     * <h4>addChile</h4>
+     * <p>
+     * Añade Objetos Jugador a la lista y dependiendo de su posicion les asigna
+     * un valor</p>
+     *
+     *
+     * @param dato Objeto jugador
+     * @return true si se añade.
+     */
     public boolean addChile(Model.Jugador dato) {
         if (size < 11) {
             if (isEmpty()) {
@@ -79,6 +89,14 @@ public class ListaC {
 
     }
 
+    /**
+     * <h4>getNodo</h4>
+     * <p>
+     * Obtiene el nodo segun el indice que reciba</p>
+     *
+     * @param index numero que se escoge.
+     * @return el dato del indice que recibio.
+     */
     public NodoC getNodo(int index) {
 
         if (0 == size) {
@@ -101,7 +119,16 @@ public class ListaC {
         }
     }
 
-    public void ordernarChile() {
+    /**
+     * <h4>ordenarChile</h4>
+     * <p>
+     * Utiliza el cocktailSort para recorrer la lista y ordenarla segun la edad
+     * de los jugadores</p>
+     *
+     *
+     * @return true cuando el proceso termina.
+     */
+    public boolean ordernarChile() {
         int cont = 0;
         while (cont <= size / 2) {
             NodoC mayor = getNodo(cont);
@@ -170,23 +197,62 @@ public class ListaC {
             }
             cont++;
         }
+        return true;
     }
 
+    /**
+     * <h4>cambiarjugador</h4>
+     * <p>
+     * Recibe el dato que esta contenido en el objeto de la lista y lo cambia
+     * por un objeto nuevo
+     * </p>
+     *
+     *
+     * @param actual jugador que esta dentro del partido
+     * @param cambio jugador que se va a cambiar
+     * @return true cuando el proceso termina.
+     */
     public boolean cambiarJugador(Model.Jugador actual, Model.Jugador cambio) {
 
         NodoC aux = cabeza;
         NodoC nuevo = new NodoC(cambio);
         int cont = 0;
         while (cont < size) {
+            if (actual.getPosicion() == "Portero") {
+
+                nuevo.setPosicion(0);
+            } else if (actual.getPosicion() == "Defensa") {
+                nuevo.setPosicion(1);
+
+            } else if (actual.getPosicion() == "Mediocampo") {
+                nuevo.setPosicion(2);
+            } else if (actual.getPosicion() == "Delantero") {
+                nuevo.setPosicion(3);
+
+            } else {
+                throw new Error("Una de las posiciones de los jugadores esta mal escrita   "
+                        + "o no existe por favor escribala correctamente");
+
+            }
+
             if (cabeza.getDato().getNombre() == actual.getNombre()) {
 
                 nuevo.setSig(cabeza.getSig());
+                cabeza.setAnt(nuevo);
                 cabeza = nuevo;
                 break;
 
-            } else if (aux.getSig().getDato().getNombre() == actual.getNombre()) {
-                nuevo.setSig(aux.getSig().getSig());
-                aux.setSig(nuevo);
+            } else if (ultimo.getDato().getNombre() == actual.getNombre()) {
+
+                ultimo.getAnt().setSig(nuevo);
+                nuevo.setAnt(ultimo.getAnt());
+                ultimo = nuevo;
+
+            } else if (aux.getDato().getNombre() == actual.getNombre()) {
+                aux.getSig().setAnt(nuevo);
+                nuevo.setSig(aux.getSig());
+                aux.getAnt().setSig(nuevo);
+                nuevo.setAnt(aux.getAnt());
 
                 break;
             } else {
@@ -202,6 +268,14 @@ public class ListaC {
         return true;
     }
 
+    /**
+     * <h4>toStringChile</h4>
+     * <p>
+     * Concatena la informacion de la lista</p>
+     *
+     *
+     * @return string de lo que se le indica .
+     */
     public String toStringChile() {
         StringBuilder builder = new StringBuilder();
 
@@ -231,7 +305,24 @@ public class ListaC {
         return builder.toString();
     }
 
+    /**
+     * <h4>alineaciondeJuego</h4>
+     * <p>
+     * Recibe 3 datos los cuales se utilizan de parametros para desplegar la
+     * lista </p>
+     *
+     *
+     * @param dato2 defensas
+     * @param dato3 medio campos
+     * @param dato4 delanteros
+     * @return string de lo que se le indica .
+     */
     public String alineaciondeJuego(int dato2, int dato3, int dato4) {
+
+        // segun las leyes del futbol un equipo no puede jugar sin portero
+        // por lo que se asume que siempre va a existir al menos portero y se obvia su posicion en la alineacion
+        // por lo que solo se piden los datos de la defensa , el mediocampo y los delanteros
+        //Se corre el metodo para que los jugadores queden ordenados segun su posicion
         ordenarparaAlineacion();
 
         if (dato2 + dato3 + dato4 <= 10) {
@@ -240,7 +331,11 @@ public class ListaC {
             StringBuilder builder = new StringBuilder();
 
             int coni = 0;
+
+            //Se asume que unicamente va a haber un portero en el equipo ,
+            //si existe otro tendra que tomar otra posicion en el terreno
             while (coni < 1) {
+                //Busca al menos un portero en la lista y luego rompe el ciclo
                 NodoC aux = cabeza;
                 while (cont < size) {
                     builder.append("------Portero-------");
@@ -321,7 +416,16 @@ public class ListaC {
 
     }
 
-    public void ordenarparaAlineacion() {
+    /**
+     * <h4>ordenarparaAlineacion</h4>
+     * <p>
+     * Utiliza el cocktailSort para recorrer la lista y ordenarla segun la
+     * posicion de los jugadores</p>
+     *
+     *
+     * @return true cuando el proceso termina.
+     */
+    public boolean ordenarparaAlineacion() {
         int cont = 0;
         while (cont <= size / 2) {
             NodoC mayor = getNodo(cont);
@@ -390,6 +494,7 @@ public class ListaC {
             }
             cont++;
         }
+        return true;
     }
 
     public NodoC getCabeza() {
