@@ -55,7 +55,7 @@ public class Examen1 {
         Model.Jugador jugadorEspaña5 = new Jugador("Casillas", 30, "Portero", "España");
         Model.Jugador jugadorEspaña6 = new Jugador("Xabi Alonso", 31, "Mediocampo", "España");
         Model.Jugador jugadorEspaña7 = new Jugador("Busquets", 27, "Mediocampo", "España");
-        Model.Jugador jugadorEspaña8 = new Jugador("Xavi Hernandez", 25, "Defensa", "España");
+        Model.Jugador jugadorEspaña8 = new Jugador("Xavi Hernandez", 25, "Mediocampo", "España");
         Model.Jugador jugadorEspaña9 = new Jugador("Pedro Rodriguez", 27, "Mediocampo", "España");
         Model.Jugador jugadorEspaña10 = new Jugador("Andres Iniesta", 28, "Mediocampo", "España");
         Model.Jugador jugadorEspaña11 = new Jugador("David Villa", 30, "Delantero", "España");
