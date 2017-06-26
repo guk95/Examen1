@@ -56,7 +56,6 @@ public class TestExamen {
         listac.addChile(prueba2);
         listac.addChile(prueba3);
         listac.ordernarChile();
-        listac.getNodo(0);
 
         String obtenido = "";
         for (int i = 0; i < 3; i++) {
@@ -153,7 +152,6 @@ public class TestExamen {
         listac.addChile(prueba2);
         listac.addChile(prueba3);
         listac.ordenarparaAlineacion();
-        listac.getNodo(0);
 
         String obtenido = "";
         for (int i = 0; i < 3; i++) {
